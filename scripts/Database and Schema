@@ -1,0 +1,48 @@
+/*
+=============================================================
+Database & Schema Setup
+=============================================================
+Description:
+    This script creates a fresh database called 'DataWarehouse'. 
+    If an existing database with the same name is found, it will 
+    be removed and recreated. 
+    
+    After creating the database, three schemas are added:
+    - bronze
+    - silver
+    - gold
+
+⚠️ Important:
+    Running this script will completely drop the 'DataWarehouse' 
+    database if it already exists. All data will be lost. 
+    Make sure you have backups before executing.
+*/
+
+USE master;
+GO
+
+-- Remove the database if it already exists
+IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DataWarehouse')
+BEGIN
+    ALTER DATABASE DataWarehouse SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE DataWarehouse;
+END;
+GO
+
+-- Create a new 'DataWarehouse' database
+CREATE DATABASE DataWarehouse;
+GO
+
+USE DataWarehouse;
+GO
+
+-- Create the schemas used in the project
+CREATE SCHEMA bronze;
+GO
+
+CREATE SCHEMA silver;
+GO
+
+CREATE SCHEMA gold;
+GO
+
